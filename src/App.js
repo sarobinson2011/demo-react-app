@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import './App.css';
-import contract from './contracts/LockDrop.json';
+import lockdropABI from './contracts/LockDrop.json';
+import { ethers } from 'ethers';
 
-const lockdropAddress = "0xDB868ED97Ade086f2089e310202408346883F545";
-const abi = contract.abi;
-
-console.log(lockdropAddress);
-console.log(abi);
 
 function App() {
+
+  const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
 
   const [currentAccount, setCurrentAccount] = useState(null);
 
@@ -28,6 +26,8 @@ function App() {
   const connectWalletHandler = async () => {
     const { ethereum } = window;
 
+    console.log('Contract address:', process.env.LOCKDROP_CONTRACT_ADDRESS);    // HERE <---
+
     if (!ethereum) {
       alert("Please install Metamask");
     }
@@ -39,7 +39,6 @@ function App() {
     } catch (err) {
       console.log(err)
     }
-
   }
 
   const connectWalletButton = () => {
@@ -50,26 +49,45 @@ function App() {
     )
   }
 
-  const depositHandler = () => {
-    // stuff
-  }
+  const depositHandler = async () => {
+
+    try {
+
+      // 1. Connect to the provider (MetaMask)
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const abi = lockdropABI;
+
+      console.log('contract address:', contractAddress);
+      console.log('abi:', lockdropABI);
+      console.log('signer:', signer);
+
+      // 2. Load the contract instance
+      const contractInstance = new ethers.Contract(contractAddress, lockdropABI, signer);
+
+      console.log('contract instance:', contractInstance);
+
+      // 3. Get the user's input amount (if applicable)
+      const amountToDeposit = ethers.parseEther("0.01");
+      // const amountToDeposit =    -->  or, get the amount from a form / input field
+
+      // 4. Call the deposit function on the contract
+      const transaction = await contractInstance.deposit({ value: amountToDeposit });
+      await transaction.wait(); // Wait for transaction confirmation
+
+      // 5. Handle success
+      console.log("Deposit successful!");
+
+    } catch (error) {
+      // 6. Handle error
+      console.error("Deposit failed:", error);
+    }
+  };
 
   const depositButton = () => {
     return (
       <button onClick={depositHandler} className='cta-button deposit-button'>
         Deposit
-      </button>
-    )
-  }
-
-  const withdrawHandler = () => {
-    // stuff
-  }
-
-  const withdrawButton = () => {
-    return (
-      <button onClick={withdrawHandler} className='cta-button withdraw-button'>
-        Withdraw
       </button>
     )
   }
@@ -87,17 +105,7 @@ function App() {
       <div style={{ marginBottom: '10px' }}>
         {depositButton()}
       </div>
-      <div style={{ marginBottom: '10px' }}>
-        {withdrawButton()}
-      </div>
     </div>
   )
-
 }
-
 export default App;
-
-
-
-
-
