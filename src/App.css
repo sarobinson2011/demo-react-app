@@ -22,5 +22,19 @@
 }
 
 .withdraw-button {
-  background: hwb(24 7% 43%);
+  background: rgb(79, 18, 145);
 }
+
+/* Style for the user input field in DepositComponent */
+
+#depositAmount {
+  width: 200px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* Add more styles as needed */

@@ -1,107 +1,54 @@
-/* Here is the original App.js code */
+const DepositComponent = () => {
+    const [depositAmount, setDepositAmount] = useState(""); // declare State Variable - 'depositAmount'
 
+    const depositHandler = async () => {
+        try {
+            // 1. Connect to the provider (MetaMask)
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+            const abi = lockdropABI;
 
-// import { useEffect } from 'react';
-// import { useState } from 'react';
-// import './App.css';
-// import contract from './contracts/LockDrop.json';
-// import { ethers } from 'ethers';
+            console.log('contract address:', contractAddress);
+            console.log('abi:', lockdropABI);
+            console.log('signer:', signer);
 
-// function App() {
+            // 2. Load the contract instance
+            const contractInstance = new ethers.Contract(contractAddress, lockdropABI, signer);
 
-//   const [currentAccount, setCurrentAccount] = useState(null);
+            console.log('contract instance:', contractInstance);
 
-//   const checkWalletIsConnected = () => {
-//     const { ethereum } = window;
+            // 3. Get the user's input amount
+            const amountToDeposit = ethers.parseEther(depositAmount);
 
-//     if (!ethereum) {
-//       console.log("Make sure you have Metamask installed");
-//       return;
-//     }
-//     else {
-//       console.log("Wallet exists... ready to go!")
-//     }
-//   }
+            // 4. Call the deposit function on the contract
+            const transaction = await contractInstance.deposit({ value: amountToDeposit });
+            await transaction.wait(); // Wait for transaction confirmation
 
-//   const connectWalletHandler = async () => {
-//     const { ethereum } = window;
+            // 5. Handle success
+            console.log("Deposit successful!");
+            console.log("Transaction Receipt:", await transaction.wait());
 
-//     if (!ethereum) {
-//       alert("Please install Metamask");
-//     }
+        } catch (error) {
+            // 6. Handle error
+            console.error("Deposit failed:", error);
+        }
+    };
 
-//     try {
-//       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-//       console.log("Success, account found! Address: ", accounts[0]);
-//       setCurrentAccount(accounts[0]);
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
+    return (
+        <div>
+            <label htmlFor="depositAmount">Enter Deposit Amount: </label>
+            <input
+                type="text"
+                id="depositAmount"
+                value={depositAmount}
+                onChange={(e) => setDepositAmount(e.target.value)}
+            />
+            <br />
+            <button onClick={depositHandler} className='cta-button deposit-button'>
+                Deposit
+            </button>
+        </div>
+    );
+};
 
-//   const connectWalletButton = () => {
-//     return (
-//       <button onClick={connectWalletHandler} className='cta-button connect-wallet-button'>
-//         Connect Wallet
-//       </button>
-//     )
-//   }
-
-//   const depositHandler = async () => {
-//     // stuff
-//   }
-
-//   const depositButton = () => {
-//     return (
-//       <button onClick={depositHandler} className='cta-button deposit-button'>
-//         Deposit
-//       </button>
-//     )
-//   }
-
-//   const withdrawHandler = async () => {
-//     /// 
-//     // stuff
-//     // 
-//   }
-
-//   const withdrawButton = () => {
-//     return (
-//       <button onClick={withdrawHandler} className='cta-button withdraw-button'>
-//         Withdraw
-//       </button>
-//     )
-//   }
-
-//   useEffect(() => {
-//     checkWalletIsConnected();
-//   }, [])
-
-//   return (
-//     <div className='main-app'>
-//       <h1>Web3 front-end sandbox</h1>
-//       <div style={{ marginBottom: '10px' }}>
-//         {connectWalletButton()}
-//       </div>
-//       <div style={{ marginBottom: '10px' }}>
-//         {depositButton()}
-//       </div>
-//       <div style={{ marginBottom: '10px' }}>
-//         {withdrawButton()}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default App;
-
-
-
-
-
-
-
-
-
-
-
+export default DepositComponent;
