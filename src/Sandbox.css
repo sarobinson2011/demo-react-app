@@ -1,0 +1,45 @@
+.main-app {
+    text-align: center;
+    margin: 100px;
+}
+
+.cta-button {
+    padding: 25px;
+    border: none;
+    border-radius: 12px;
+    min-width: 240px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.connect-wallet-button {
+    background: rgb(32, 129, 226);
+}
+
+.deposit-button {
+    background: hwb(40 5% 67%);
+}
+
+.withdraw-button {
+    background: rgb(79, 18, 145);
+}
+
+/* Additional styling for the DepositComponent */
+.custom-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* Vertically align items */
+}
+
+#depositAmount {
+    width: 200px;
+    padding: 10px;
+    margin-left: 10px;
+    /* Add some margin to separate the input from the button */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+}

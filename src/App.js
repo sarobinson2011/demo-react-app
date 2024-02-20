@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import lockdropABI from './contracts/LockDrop.json';
 import { ethers } from 'ethers';
-import DepositComponent from './DepositComponent';    // DepositComponent import  <-- see
+import DepositComponent from './DepositComponent';
 
 function App() {
   const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
@@ -23,7 +23,7 @@ function App() {
   const connectWalletHandler = async () => {
     const { ethereum } = window;
 
-    console.log('Contract address:', process.env.LOCKDROP_CONTRACT_ADDRESS);
+    console.log('Contract address:', process.env.REACT_APP_LOCKDROP_ADDRESS);
 
     if (!ethereum) {
       alert("Please install Metamask");
@@ -52,7 +52,6 @@ function App() {
       // withdraw handler code
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const abi = lockdropABI;
       const contractInstance = new ethers.Contract(contractAddress, lockdropABI, signer);
       const transaction = await contractInstance.withdraw();
       await transaction.wait(); // Wait for transaction confirmation
@@ -88,6 +87,7 @@ function App() {
       </div>
     </div>
   );
+
 }
 
 export default App;
