@@ -9,7 +9,7 @@ import { checkEventsDeposit } from './depositEventListener';
 
 const DepositComponent = () => {
     const [depositAmount, setDepositAmount] = useState("");
-    const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS; // Replace with your actual contract address
+    const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
 
     const depositHandler = async () => {
         try {
@@ -36,19 +36,20 @@ const DepositComponent = () => {
     }, []);
 
     return (
-        <div>
-            <label htmlFor="depositAmount">Enter Deposit Amount: </label>
-            <input
-                type="text"
-                id="depositAmount"
-                value={depositAmount}
-                onChange={(e) => setDepositAmount(e.target.value)}
-                className="custom-input"
-            />
-            <br />
-            <button onClick={depositHandler} className='cta-button deposit-button'>
-                Deposit
-            </button>
+        <div className="deposit-component">
+            <div className="deposit-form">
+                <label htmlFor="depositAmount">Enter Deposit Amount: </label>
+                <input
+                    type="text"
+                    id="depositAmount"
+                    value={depositAmount}
+                    onChange={(e) => setDepositAmount(e.target.value)}
+                    className="custom-input deposit-amount-input"
+                />
+                <button onClick={depositHandler} className="cta-button deposit-button">
+                    Deposit
+                </button>
+            </div>
         </div>
     );
 };

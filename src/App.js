@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import DepositComponent from './depositComponent';
 import WithdrawComponent from './withdrawComponent';
-import './depositEventListener';
-import './withdrawEventListener';
+import { checkEventsDeposit } from './depositEventListener';
+import { checkEventsWithdraw } from './withdrawEventListener';
 
 function App() {
   // const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
@@ -36,6 +36,11 @@ function App() {
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       console.log("Success, account found! Address: ", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      // Start listening for deposit and withdraw events after connecting wallet
+      checkEventsDeposit();
+      checkEventsWithdraw();
+
     } catch (err) {
       console.log(err)
     }
@@ -49,6 +54,24 @@ function App() {
     )
   }
 
+  // Render the connected wallet address in the top right corner
+  const renderConnectedAddress = () => {
+    return (
+      <div style={{
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        padding: '8px',
+        backgroundColor: '#a39e9e',
+        color: '#0d141c',
+        borderRadius: '4px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      }}>
+        {currentAccount ? `Connected wallet : ${currentAccount}` : 'Not connected'}
+      </div>
+    );
+  };
+
   useEffect(() => {
     checkWalletIsConnected();
   }, [])
@@ -56,6 +79,7 @@ function App() {
   return (
     <div className='main-app'>
       <h1>Web3 front-end sandbox</h1>
+      {renderConnectedAddress()}
       <div style={{ marginBottom: '10px' }}>
         {connectWalletButton()}
       </div>
@@ -67,7 +91,6 @@ function App() {
       </div>
     </div>
   );
-
 }
 
 export default App;

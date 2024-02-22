@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import './depositComponent.css';
+import './withdrawComponent.css';
 import lockdropABI from './contracts/LockDrop.json';
 import { checkEventsWithdraw } from './withdrawEventListener';
 
@@ -31,7 +31,7 @@ const WithdrawComponent = () => {
 
     return (
         <div>
-            <button onClick={withdrawHandler} className='cta-button deposit-button'>
+            <button onClick={withdrawHandler} className='cta-button withdraw-button'>
                 Withdraw
             </button>
         </div>

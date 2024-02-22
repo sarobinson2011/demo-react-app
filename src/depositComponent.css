@@ -1,4 +1,4 @@
-/* DepositComponent.css */
+/* depositComponent.css */
 
 .deposit-form {
     display: flex;
@@ -11,23 +11,23 @@
 .deposit-amount-input {
     width: 200px;
     padding: 10px;
-    /* margin-right: 10px; */
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
     box-sizing: border-box;
 }
 
+.custom-input {
+    padding: 8px;
+    margin-right: 10px;
+}
+
 .deposit-button {
+    margin-top: 10px;
     background: #655015;
 }
 
-/* // event NewDeposit(address indexed _user, uint256 _amount, uint256 _timestamp); */
-
-/* 
-
-console.log(JSON.stringify(user));
-console.log(JSON.stringify(amount));
-console.log(JSON.stringify(timestamp));
-
-*/
+.deposit-component {
+    padding: 1px;
+    /* Add positioning or other styles as needed */
+}

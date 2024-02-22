@@ -2,6 +2,7 @@
 
 import { ethers } from "ethers";
 import lockdropABI from './contracts/LockDrop.json';
+import Swal from 'sweetalert2';
 
 export const checkEventsWithdraw = async () => {
 
@@ -12,12 +13,22 @@ export const checkEventsWithdraw = async () => {
         let contract = new ethers.Contract(contractAddress, lockdropABI, provider);
 
         const handleNewWithdraw = (user, amount, timestamp) => {
-            console.log("New withdraw event was emitted!");
-            contract.off("NewWithdraw", handleNewWithdraw); // Remove the event listener
+            // console.log("New withdraw event was emitted!");
+
+            const message = `New withdraw event was emitted! User: ${user}, Amount: ${amount}, Timestamp: ${timestamp}`;
+
+            Swal.fire({
+                title: 'Event Detected!',
+                text: message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
+            contract.off("NewWithdraw", handleNewWithdraw);
             resolve();
         };
 
-        contract.on("NewWithdraw", handleNewWithdraw);      // <-- this is the functionality
+        contract.on("NewWithdraw", handleNewWithdraw);
 
     }).catch((error) => {
         console.error("Error during promise execution:", error);
