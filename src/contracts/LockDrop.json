@@ -18,6 +18,12 @@
                 "internalType": "uint256",
                 "name": "_amount",
                 "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
             }
         ],
         "name": "NewDeposit",
@@ -36,6 +42,12 @@
                 "indexed": false,
                 "internalType": "uint256",
                 "name": "_amount",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "_timestamp",
                 "type": "uint256"
             }
         ],

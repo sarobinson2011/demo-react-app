@@ -21,3 +21,13 @@
 .deposit-button {
     background: #655015;
 }
+
+/* // event NewDeposit(address indexed _user, uint256 _amount, uint256 _timestamp); */
+
+/* 
+
+console.log(JSON.stringify(user));
+console.log(JSON.stringify(amount));
+console.log(JSON.stringify(timestamp));
+
+*/

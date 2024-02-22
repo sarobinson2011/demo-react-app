@@ -1,11 +1,14 @@
+// App.js
+
 import { useEffect, useState } from 'react';
 import './App.css';
-import lockdropABI from './contracts/LockDrop.json';
-import { ethers } from 'ethers';
-import DepositComponent from './DepositComponent';
+import DepositComponent from './depositComponent';
+import WithdrawComponent from './withdrawComponent';
+import './depositEventListener';
+import './withdrawEventListener';
 
 function App() {
-  const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
+  // const contractAddress = process.env.REACT_APP_LOCKDROP_ADDRESS;
 
   const [currentAccount, setCurrentAccount] = useState(null);
 
@@ -46,29 +49,6 @@ function App() {
     )
   }
 
-  const withdrawHandler = async () => {
-    try {
-      console.log('Processing withdraw...');
-      // withdraw handler code
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      const contractInstance = new ethers.Contract(contractAddress, lockdropABI, signer);
-      const transaction = await contractInstance.withdraw();
-      await transaction.wait(); // Wait for transaction confirmation
-      console.log("Withdraw successful!");
-    } catch (error) {
-      console.log('Withdraw error!', error);
-    }
-  }
-
-  const withdrawButton = () => {
-    return (
-      <button onClick={withdrawHandler} className='cta-button withdraw-button'>
-        Withdraw
-      </button>
-    )
-  }
-
   useEffect(() => {
     checkWalletIsConnected();
   }, [])
@@ -83,7 +63,7 @@ function App() {
         <DepositComponent /> {/* Use the DepositComponent */}
       </div>
       <div style={{ marginBottom: '10px' }}>
-        {withdrawButton()}
+        <WithdrawComponent /> {/* Use the withdrawComponent */}
       </div>
     </div>
   );
